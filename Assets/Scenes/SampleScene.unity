@@ -479,6 +479,7 @@ Transform:
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1001 &1047185002
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -549,6 +550,8 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: d449ddd1559c64349b5a6ef7a3f241b8, type: 3}
 =======
 >>>>>>> refs/remotes/origin/main
+=======
+>>>>>>> 2641151eb5d454082ae43ef7609c1b4efc94fbfa
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -556,8 +559,13 @@ SceneRoots:
   - {fileID: 963194228}
   - {fileID: 705507995}
 <<<<<<< HEAD
+<<<<<<< HEAD
   - {fileID: 1047185002}
 =======
   - {fileID: 304329946}
   - {fileID: 287403687}
 >>>>>>> refs/remotes/origin/main
+=======
+  - {fileID: 304329946}
+  - {fileID: 287403687}
+>>>>>>> 2641151eb5d454082ae43ef7609c1b4efc94fbfa
