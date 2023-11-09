@@ -5,11 +5,22 @@ using UnityEngine;
 public class Tower : MonoBehaviour
 {   
     private Transform target;
+
+    [Header("Attributes")]
+
     public float range = 10f;
+    public float fireRate = 1f;
+    private float fireCountDown = 1f;
+
+    [Header("Unity Side")]
+
     public string enemyTag = "Enemy";
     public float turnspeed = 10f;
-
     public Transform top;
+
+    public GameObject bulletPrefab;
+    public Transform firePoint;
+
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +32,6 @@ public class Tower : MonoBehaviour
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
         float shortestDistance = Mathf.Infinity;
-
         GameObject nearestEnemy = null;
         foreach (GameObject enemy in enemies) {
 
@@ -55,7 +65,24 @@ public class Tower : MonoBehaviour
         Vector3 rotation = Quaternion.Lerp(top.rotation, lookRotation, Time.deltaTime * turnspeed).eulerAngles;
         top.rotation = Quaternion.Euler(0f, rotation.y, 0f);
 
+        if (fireCountDown <= 0f) {
 
+            Shoot();
+            fireCountDown = 1f / fireRate;
+        }
+
+        fireCountDown -= Time.deltaTime;
+
+    }
+
+    void Shoot () { 
+
+        GameObject bulletTemp = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Bullet bullet = bulletTemp.GetComponent<Bullet>();
+
+        if (bullet != null) {
+            bullet.Seek(target);
+        }
     }
 
     void OnDrawGizmosSelected () {
