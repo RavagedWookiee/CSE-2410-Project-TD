@@ -8,12 +8,19 @@ public class WaveSpawner : MonoBehaviour {
     public float timeWaves = 10f;
     private float countdown = 2f;
 
-    private int wave = 0;
+    public static int wave = 0;
 
     void Update () {
 
         if (countdown <= 0f) {
-            
+
+            //add check to make sure all enemies are dead
+            if (wave == 100) {
+
+                Debug.Log("You Win!!!");
+            }
+
+            wave++;
             StartCoroutine(Spawn());
             countdown = timeWaves;
         }
@@ -28,8 +35,6 @@ public class WaveSpawner : MonoBehaviour {
             CreateEnemy();
             yield return new WaitForSeconds(0.5f);
         }
-
-        wave++;
     }
 
     void CreateEnemy() {

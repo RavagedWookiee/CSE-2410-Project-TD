@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour {
 
     private Transform target;
     public float speed = 70f;
+    public int amount = 10;
     
     public GameObject impactEffect;
 
@@ -44,5 +45,7 @@ public class Bullet : MonoBehaviour {
 
         Destroy(target.gameObject);
         Destroy(gameObject);
+
+        PlayerStats.Currency += amount;
     }
 }

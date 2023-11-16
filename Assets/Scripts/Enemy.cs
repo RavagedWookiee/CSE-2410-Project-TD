@@ -30,6 +30,8 @@ public class Enemy : MonoBehaviour
         if(waypointIndex >= Waypoint.points.Length - 1) {
 
             Destroy(gameObject);
+            PlayerStats.Lives -= 1;
+            //checksum for lose condition
             return;
         }
 
