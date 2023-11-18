@@ -13,15 +13,15 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        if (WaveSpawner.wave <= 1)
+        if (GameManager.currentRound <= 1)
         {
             curr_Rounds = 1;
         }
         else {
-            curr_Rounds = WaveSpawner.wave;
+            curr_Rounds = GameManager.currentRound;
         }
 
-        Round.text = "Round: " + curr_Rounds + "/100";
+        Round.text = "Round: " + curr_Rounds + "/" + GameManager.maxRounds;
         Livesleft.text = "❤️ " + PlayerStats.Lives.ToString();
         CurrencyAmount.text = "$" + PlayerStats.Currency.ToString();
     }

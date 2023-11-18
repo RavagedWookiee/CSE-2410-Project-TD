@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float speed = 10f;
-
     private Transform target;
     private int waypointIndex = 0;
+    public GameObject impactEffect;
+    
+    [Header("Attributes")]
+    public float speed;
+    public float health;
+    public float maxHealth;
+    public int reward;
 
-    void Start() {
+    protected virtual void Start() {
 
         target = Waypoint.points[0];
     }
 
-    void Update () {
+    protected virtual void Update () {
 
         Vector3 dir = target.position - transform.position;
         transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
@@ -31,11 +36,29 @@ public class Enemy : MonoBehaviour
 
             Destroy(gameObject);
             PlayerStats.Lives -= 1;
-            //checksum for lose condition
             return;
         }
 
         waypointIndex++;
         target = Waypoint.points[waypointIndex];
+    }
+
+    public void TakeDamage(float amount)
+    {
+        health -= amount;
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        GameObject effectIns = Instantiate(impactEffect, transform.position, transform.rotation);
+        Destroy(effectIns, 2f);
+
+        PlayerStats.Currency += reward;
+        WaveSpawner.enemyCount--;
+        Destroy(gameObject);
     }
 }

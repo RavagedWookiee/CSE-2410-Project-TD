@@ -7,20 +7,13 @@ public class WaveSpawner : MonoBehaviour {
     public Transform spawnpoint;
     public float timeWaves = 10f;
     private float countdown = 2f;
-
-    public static int wave = 0;
+    public static float enemyCount = 0f;
 
     void Update () {
 
-        if (countdown <= 0f) {
+        if (countdown <= 0f && enemyCount == 0) {
 
-            //add check to make sure all enemies are dead
-            if (wave == 100) {
-
-                Debug.Log("You Win!!!");
-            }
-
-            wave++;
+            GameManager.currentRound++;
             StartCoroutine(Spawn());
             countdown = timeWaves;
         }
@@ -30,7 +23,7 @@ public class WaveSpawner : MonoBehaviour {
 
     IEnumerator Spawn () {
 
-        for (int i = 0; i < wave; i++) {
+        for (int i = 0; i < GameManager.currentRound; i++) {
 
             CreateEnemy();
             yield return new WaitForSeconds(0.5f);
@@ -38,6 +31,7 @@ public class WaveSpawner : MonoBehaviour {
     }
 
     void CreateEnemy() {
+        enemyCount++;
         Instantiate(enemyPrefab, spawnpoint.position, spawnpoint.rotation);
     } 
 }

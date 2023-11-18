@@ -6,9 +6,8 @@ public class Bullet : MonoBehaviour {
 
     private Transform target;
     public float speed = 70f;
-    public int amount = 10;
-    
     public GameObject impactEffect;
+    public float damage;
 
     public void Seek (Transform _target) {
 
@@ -39,13 +38,15 @@ public class Bullet : MonoBehaviour {
     }
 
     void HitTarget () {
-
         GameObject effectIns = Instantiate(impactEffect, transform.position, transform.rotation);
-        Destroy(effectIns, 2f);
-
-        Destroy(target.gameObject);
+        Destroy(effectIns, 0.5f);
+        
+        Enemy enemy = target.GetComponent<Enemy>();
+         if (enemy != null)
+        {
+            enemy.TakeDamage(damage);
+        }
+        
         Destroy(gameObject);
-
-        PlayerStats.Currency += amount;
     }
 }

@@ -11,6 +11,7 @@ public class Tower : MonoBehaviour
     public float range = 10f;
     public float fireRate = 1f;
     private float fireCountDown = 1f;
+    public float damage = 5f;
 
     [Header("Unity Side")]
 
@@ -79,6 +80,7 @@ public class Tower : MonoBehaviour
 
         GameObject bulletTemp = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Bullet bullet = bulletTemp.GetComponent<Bullet>();
+        bullet.damage = damage;
 
         if (bullet != null) {
             bullet.Seek(target);
