@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicEnemy: Enemy
+public class T2Enemy: Enemy
 {
     protected override void Start()
     {
-        maxHealth = 5f;
+        maxHealth = 10f;
         health = maxHealth;
 
+        lifeDamage = 2;
+
         speed = 10f;
-        reward = 10;
+        originalSpeed = speed;
+        reward = 20;
 
         base.Start();
     }

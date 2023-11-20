@@ -32,7 +32,7 @@ public class BuildManager : MonoBehaviour
         if (Physics.Raycast(position, Vector3.down, out hit, Mathf.Infinity, groundLayer))
         {
             if (hit.collider.CompareTag("Buildable"))
-            {
+            {   
                 Collider[] colliders = Physics.OverlapSphere(position, 0.01f, invalidPlacementLayer);
                 foreach (var collider in colliders)
                 {

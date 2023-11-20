@@ -10,14 +10,44 @@ public class Enemy : MonoBehaviour
     
     [Header("Attributes")]
     public float speed;
+    public float originalSpeed;
+    private bool isSlowed = false;
     public float health;
     public float maxHealth;
     public int reward;
+    public int lifeDamage;
 
     protected virtual void Start() {
 
         target = Waypoint.points[0];
     }
+
+    public void ApplySlow(float slowStrength, float duration)
+    {
+        if (!isSlowed)
+        {
+            StartCoroutine(Slow(slowStrength, duration));
+            Debug.Log("slowed");
+        }
+        else
+        {
+            // Reset the slow effect if already slowed
+            StopCoroutine("Slow");
+            StartCoroutine(Slow(slowStrength, duration));
+        }
+    }
+
+    IEnumerator Slow(float slowStrength, float duration)
+    {
+        isSlowed = true;
+        speed *= slowStrength;
+
+        yield return new WaitForSeconds(duration);
+
+        speed = originalSpeed;
+        isSlowed = false;
+    }
+
 
     protected virtual void Update () {
 
@@ -35,7 +65,7 @@ public class Enemy : MonoBehaviour
         if(waypointIndex >= Waypoint.points.Length - 1) {
 
             Destroy(gameObject);
-            PlayerStats.Lives -= 1;
+            PlayerStats.Lives -= lifeDamage;
             return;
         }
 

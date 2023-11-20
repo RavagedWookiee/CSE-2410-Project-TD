@@ -11,6 +11,10 @@ public class Shop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     private TurretData selectedTurret;
     private GameObject turretToBuild;
     public GameObject basicTurret;
+    public GameObject quadTurret;
+    public GameObject slowTurret;
+    public GameObject supportTurret;
+    public GameObject artyTurret;
 
     private GameObject turretGhost;
 
@@ -44,12 +48,72 @@ public class Shop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         }
         else
         {
-            Debug.Log(PlayerStats.Currency);
             turretToBuild = turretData.turretPrefab; // Set it locally for drag-and-drop
             selectedTurretCost = turretData.cost;
             //buildManager.SelectTurretToBuild(turretData.turretPrefab); // IN BuildManager not in use rn
         }
     }
+
+    public void QuadTurret()
+    {   
+        TurretData turretData = quadTurret.GetComponent<TurretData>();
+        if (PlayerStats.Currency < turretData.cost)
+        {
+            Debug.Log("Not enough currency to build this turret!");
+            turretToBuild = null;
+        }
+        else
+        {
+            turretToBuild = turretData.turretPrefab;
+            selectedTurretCost = turretData.cost;
+        }
+    }
+
+    public void SlowTurret()
+    {   
+        TurretData turretData = slowTurret.GetComponent<TurretData>();
+        if (PlayerStats.Currency < turretData.cost)
+        {
+            Debug.Log("Not enough currency to build this turret!");
+            turretToBuild = null;
+        }
+        else
+        {
+            turretToBuild = turretData.turretPrefab;
+            selectedTurretCost = turretData.cost;
+        }
+    }
+
+    public void SupportTurret()
+    {   
+        TurretData turretData = supportTurret.GetComponent<TurretData>();
+        if (PlayerStats.Currency < turretData.cost)
+        {
+            Debug.Log("Not enough currency to build this turret!");
+            turretToBuild = null;
+        }
+        else
+        {
+            turretToBuild = turretData.turretPrefab;
+            selectedTurretCost = turretData.cost;
+        }
+    }
+
+    public void ArtyTurret()
+    {   
+        TurretData turretData = artyTurret.GetComponent<TurretData>();
+        if (PlayerStats.Currency < turretData.cost)
+        {
+            Debug.Log("Not enough currency to build this turret!");
+            turretToBuild = null;
+        }
+        else
+        {
+            turretToBuild = turretData.turretPrefab;
+            selectedTurretCost = turretData.cost;
+        }
+    }    
+
     
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -60,6 +124,22 @@ public class Shop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             if(selectedTurret.name == "BasicTurret")
             {
                 BasicTurret();
+            }
+            if(selectedTurret.name == "QuadTurret")
+            {
+                QuadTurret();
+            }
+            if(selectedTurret.name == "SlowTower")
+            {
+                SlowTurret();
+            }
+            if(selectedTurret.name == "SupportTower")
+            {
+                SupportTurret();
+            }
+            if(selectedTurret.name == "ArtyTower")
+            {
+                ArtyTurret();
             }
         }
     }
@@ -73,7 +153,6 @@ public class Shop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         }
 
         Vector3 tempPos = GetWorldPoint(eventData);
-        tempPos.y += 0.5f;
 
         turretGhost = Instantiate(turretToBuild, tempPos, Quaternion.identity);
     }
@@ -93,13 +172,18 @@ public class Shop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         if (turretToBuild != null && buildManager.CheckValidPlacement(turretGhost.transform.position))
         {
-
-             Vector3 placementPosition = turretGhost.transform.position;
-             placementPosition.y += 0.5f;
+            Vector3 placementPosition = turretGhost.transform.position;
 
             Instantiate(turretToBuild, placementPosition, Quaternion.identity);
             PlayerStats.Currency -= selectedTurretCost;
         }
+        else
+        {
+            //Debug.Log("failed to place");
+            //Debug.Log(turretToBuild);
+            //Debug.Log(buildManager.CheckValidPlacement(turretGhost.transform.position));
+        }
+
         Destroy(turretGhost); // Clean up the ghost object
     }
 
@@ -109,7 +193,12 @@ public class Shop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, buildableLayerMask))
         {
+            //Debug.DrawLine(ray.origin, hit.point, Color.green, 2f);
             return hit.point;
+        }
+        else
+        {
+           //Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 2f);
         }
         return Vector3.zero;
     }

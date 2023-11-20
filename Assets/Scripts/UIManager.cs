@@ -10,6 +10,13 @@ public class UIManager : MonoBehaviour
     public Text Livesleft;
     public Text CurrencyAmount;
     public static int curr_Rounds;
+    public GameObject settingsPopup;
+
+    void Start()
+    {
+        // Initially hide pop-ups
+        settingsPopup.SetActive(false);
+    }
 
     void Update()
     {
@@ -24,6 +31,11 @@ public class UIManager : MonoBehaviour
         Round.text = "Round: " + curr_Rounds + "/" + GameManager.maxRounds;
         Livesleft.text = "❤️ " + PlayerStats.Lives.ToString();
         CurrencyAmount.text = "$" + PlayerStats.Currency.ToString();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Settings();
+        }
     }
 
     public void TogglePause()
@@ -48,5 +60,29 @@ public class UIManager : MonoBehaviour
         {
             Time.timeScale = 1f; // Resume the game
         }
+    }
+
+    public void Settings()
+    {
+        if (Time.timeScale != 0f)
+        {
+            Time.timeScale = 0f;
+            settingsPopup.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            settingsPopup.SetActive(false);
+        }        
+    }
+    public void Test ()
+    {
+        Debug.Log("Pressed");
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1f;
+        settingsPopup.SetActive(false);
     }
 }

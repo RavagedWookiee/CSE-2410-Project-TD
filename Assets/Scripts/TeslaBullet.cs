@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour {
-
+public class TeslaBullet : MonoBehaviour
+{
     private Transform target;
     public float speed = 60f;
+    public float slowEffectStrength = 0.5f; // Slow down to 50% speed
+    public float slowDuration = 2f; // Slow effect lasts for 2 seconds
     public GameObject impactEffect;
-    public float damage;
 
     public void Seek (Transform _target) {
 
@@ -26,8 +27,6 @@ public class Bullet : MonoBehaviour {
         Vector3 dir = target.position - transform.position;
         float distanceThisFrame = speed * Time.deltaTime;
 
-        Debug.Log(dir.magnitude + " " + distanceThisFrame);
-
         if (dir.magnitude <= distanceThisFrame) {
 
             HitTarget();
@@ -42,9 +41,9 @@ public class Bullet : MonoBehaviour {
         Destroy(effectIns, 0.5f);
         
         Enemy enemy = target.GetComponent<Enemy>();
-         if (enemy != null)
-        {
-            enemy.TakeDamage(damage);
+        if (enemy != null)
+        {   
+            enemy.ApplySlow(slowEffectStrength, slowDuration);
         }
         
         Destroy(gameObject);

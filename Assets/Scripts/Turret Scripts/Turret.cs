@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {   
-    private Transform target;
+    public Transform target;
+
+    [Header("Energy Attributes")]
+    public float maxEnergy = 100f; // Maximum energy capacity
+    public float currentEnergy; // Current energy level
+    public float energyConsumptionRate = 1f; // Energy consumed per shot
+
+    [Header("Upgrades")]
+
+    public bool rangeUp = false;
+    public bool fireRateUp = false;
+    public bool damageUp = false;
 
     [Header("Attributes")]
 
     public float range = 10f;
     public float fireRate = 1f;
-    private float fireCountDown = 1f;
+    public float fireCountDown = 0f;
     public float damage = 5f;
 
     [Header("Unity Side")]
@@ -24,12 +35,12 @@ public class Tower : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         InvokeRepeating("TargetUpdate", 0f, 0.5f);   
     }
 
-    void TargetUpdate() {
+    protected virtual void TargetUpdate() {
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
         float shortestDistance = Mathf.Infinity;
@@ -55,7 +66,7 @@ public class Tower : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (target == null) {
             return;
@@ -76,7 +87,7 @@ public class Tower : MonoBehaviour
 
     }
 
-    void Shoot () { 
+    protected virtual void Shoot () { 
 
         GameObject bulletTemp = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Bullet bullet = bulletTemp.GetComponent<Bullet>();
@@ -87,7 +98,7 @@ public class Tower : MonoBehaviour
         }
     }
 
-    void OnDrawGizmosSelected () {
+    protected virtual void OnDrawGizmosSelected () {
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, range);
